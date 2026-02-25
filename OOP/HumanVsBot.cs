@@ -9,39 +9,38 @@ namespace OOP
 {
     internal class HumanVsBot: IGame
     {
-        public void RandomMove(List<(int colum, int row)> TrueCoords)
+        public void RandomMove(List<int> TrueCoords, char[] field)
         {
 
 
                 Random rnd = new Random();
                 int index = rnd.Next(TrueCoords.Count);
 
-                Console.WriteLine($"rowS = {TrueCoords[index].row}, colS = {TrueCoords[index].colum}");
-                arr[TrueCoords[index].colum, TrueCoords[index].row] = 'X';
+                Console.WriteLine($"rowS = {TrueCoords[index]}, colS = {TrueCoords[index]}");
+                field[TrueCoords[index]] = 'X';
 
 
         }
 
-        public List<(int colum, int row)> FindMoves()
+        public List<int> FindMoves()
         {
-            List<(int colum, int row)> TrueCoords = new();
+            List<int> TrueCoords = new();
 
-            for (int i = 0; i < arr.GetLength(0); i++)
+            for (int i = 0; i < arr.Length; i++)
             {
-                for (int t = 0; t < arr.GetLength(1); t++)
-                {
-                    if (arr[i, t] == '.')
-                    {
-                        TrueCoords.Add((i, t));
-                    }
-                }
+
+                    //if (0 <= arr[i] && arr[i] <= 9)
+                    //{
+                    //    TrueCoords.Add(i);
+                    //}
+                
             }
             return TrueCoords;
         }
 
         public void RandomMoves()
         {
-            List<(int colum, int row)> Cords = new (FindMoves());  
+            List<int> Cords = new (FindMoves());  
         }
 
         public override void play()
@@ -92,7 +91,7 @@ namespace OOP
                 {
 
                     Program.WriteToConsole("Bot Move... ");
-                    RandomMove(FindMoves());
+                    //RandomMove(FindMoves());
                     ifwin = CheckToWin(arr);
                 }
 

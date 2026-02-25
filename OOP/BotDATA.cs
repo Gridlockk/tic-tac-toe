@@ -11,6 +11,7 @@ namespace OOP
         public static Dictionary<string, List<(int, int)>> Moves = new()
         {
             { "X........", new List<(int, int)> { (1,2) } }
+
           
         };
     }
