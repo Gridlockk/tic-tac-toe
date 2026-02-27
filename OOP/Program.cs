@@ -13,7 +13,7 @@
         static void Main(string[] args)
         {
 
-            WriteToConsole("Play With player 2 = 1 or Bot VS Bot = 2");
+            WriteToConsole("Play With player = 1 \n Bot VS Bot = 2 \n Player VS Bot = 3  \n NetWorkGame HOST Game = 4 \n NetWorkGame Join Game = 5");
 
             int choice = 0;
             choice = Int32.Parse(Console.ReadLine());
@@ -25,24 +25,6 @@
 
             char[] field = "123456789".ToCharArray();
 
-
-            //switch (choice)
-            //{
-            //    case 1:
-
-
-
-            //        HumanVsHuman hvsh = new HumanVsHuman();
-            //        hvsh.play();
-            //        break;
-            //    case 2:
-            //        HumanVsBot hvsb = new HumanVsBot();
-            //        hvsb.play();
-            //        break;
-            //    default:
-            //        WriteToConsole("unknown choice");
-            //        break;
-            //}
 
             switch (choice)
             {
@@ -58,6 +40,14 @@
                 case 3:
                     playerX = new ConsolePlayer();
                     playerO = new ConsoleBot();
+                    break;
+                case 4:
+                    playerX = new NetWorkPlayer(true);
+                    playerO = new ConsolePlayer();
+                    break;
+                case 5:
+                    playerX = new ConsolePlayer();
+                    playerO = new NetWorkPlayer(false);
                     break;
 
                 default:
