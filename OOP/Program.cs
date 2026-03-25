@@ -42,12 +42,15 @@
                     playerO = new ConsoleBot();
                     break;
                 case 4:
-                    playerX = new NetWorkPlayer(true);
-                    playerO = new ConsolePlayer();
+                    //isHost: true
+                    NetWorkPlayer network4 = new NetWorkPlayer(true);
+                    playerX = network4;
+                    playerO = network4;
                     break;
                 case 5:
-                    playerX = new ConsolePlayer();
-                    playerO = new NetWorkPlayer(false);
+                    NetWorkPlayer network5 = new NetWorkPlayer(false);
+                    playerX = network5;  
+                    playerO = network5;
                     break;
 
                 default:
@@ -56,7 +59,8 @@
             }
             while (true)
             {
-                //Console.Clear();
+                
+               // Console.Clear();
 
                 int turn = playerX.Move(field, true);
                 field[turn] = 'X';
@@ -72,6 +76,7 @@
                 {
                     return;
                 }
+
             }
 
 
