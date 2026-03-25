@@ -13,7 +13,7 @@
         static void Main(string[] args)
         {
 
-            WriteToConsole("Play With player = 1 \n Bot VS Bot = 2 \n Player VS Bot = 3  \n NetWorkGame HOST Game = 4 \n NetWorkGame Join Game = 5");
+            WriteToConsole("Play With player = 1 \n Bot VS Bot = 2 \n Player VS Bot = 3  \n NetWorkGame HOST Game = 4 \n NetWorkGame Join Game = 5 \n NetWorkGame HOST Game(Bot) = 6 \n NetWorkGame Join Game(Bot) = 7");
 
             int choice = 0;
             choice = Int32.Parse(Console.ReadLine());
@@ -31,6 +31,7 @@
                 case 1:
                     playerX = new ConsolePlayer();
                     playerO = new ConsolePlayer();
+                    WriteToConsole("First player — X, second player — O");
                     break;
                 case 2:
 
@@ -38,9 +39,23 @@
                     playerO = new ConsoleBot();
                     break;
                 case 3:
-                    playerX = new ConsolePlayer();
-                    playerO = new ConsoleBot();
+                    WriteToConsole("Choose your side: X = 1, O = 2");
+                    int sideChoice = Int32.Parse(Console.ReadLine());
+
+                    if (sideChoice == 2)
+                    {
+                        playerX = new ConsoleBot();
+                        playerO = new ConsolePlayer();
+                        WriteToConsole("You play as O (Bot goes first)");
+                    }
+                    else
+                    {
+                        playerX = new ConsolePlayer();
+                        playerO = new ConsoleBot();
+                        WriteToConsole("You play as X");
+                    }
                     break;
+                    
                 case 4:
                     //isHost: true
                     NetWorkPlayer network4 = new NetWorkPlayer(true);
@@ -51,6 +66,16 @@
                     NetWorkPlayer network5 = new NetWorkPlayer(false);
                     playerX = network5;  
                     playerO = network5;
+                    break;
+                case 6:
+                    NetWorkBot network6 = new NetWorkBot(true);
+                    playerX = network6;
+                    playerO = network6;
+                    break;
+                case 7:
+                    NetWorkBot network7 = new NetWorkBot(false);
+                    playerX = network7;
+                    playerO = network7;
                     break;
 
                 default:
@@ -64,16 +89,21 @@
 
                 int turn = playerX.Move(field, true);
                 field[turn] = 'X';
+                WriteToConsole("Ход игрока X");
                 WriteField(field);
                 if (CheckToWin(field, 'X'))
                 {
+                    WriteToConsole("Выиграл X");
                     return;
                 }
                 turn = playerO.Move(field, false);
                 field[turn] = 'O';
+                WriteToConsole("Ход игрока O");
                 WriteField(field);
                 if (CheckToWin(field, 'O'))
                 {
+                    WriteToConsole("Выиграл O");
+
                     return;
                 }
 
