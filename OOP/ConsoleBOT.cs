@@ -20,18 +20,7 @@ namespace OOP
 
             Random rnd = new Random();
             int index = rnd.Next(TrueCoords.Count);
-
-           if (side)
-            {
-                field[TrueCoords[index]] = 'X';
-
-            }
-            else 
-            {
-                field[TrueCoords[index]] = 'O';
-
-            }
-            return index;
+            return TrueCoords[index];
 
         }
 
@@ -44,7 +33,7 @@ namespace OOP
                 for (int i = 0; i < field.Length; i++)
                 {
 
-                    if (field[i] != 'X' || field[i] != 'O')
+                    if (field[i] != 'X' && field[i] != 'O')
                     {
                         TrueCoords.Add(i);
                     }

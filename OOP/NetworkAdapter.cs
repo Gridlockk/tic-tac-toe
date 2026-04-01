@@ -9,19 +9,22 @@ using System.Threading.Tasks;
 
 namespace OOP
 {
-    internal class NetWorkPlayer : IPlayer
+    internal class NetWorkAdapter : IPlayer
     {
 
         private bool myTurn;
         private TcpClient client;
         private StreamReader reader;
         private StreamWriter writer;
-        public NetWorkPlayer(bool host) 
+        private IPlayer player;
+        public NetWorkAdapter(bool host, IPlayer player)
         {
 
             Console.Write("Введите порт: ");
             int port = int.Parse(Console.ReadLine());
             this.myTurn = host;
+
+            this.player = player;
             if (host)
             {
 
@@ -44,7 +47,7 @@ namespace OOP
             var stream = client.GetStream();
             reader = new StreamReader(stream);
             writer = new StreamWriter(stream) { AutoFlush = true };
-
+            this.player = player;
         }
         public int Move(char[] field, bool side)
         {
@@ -52,22 +55,26 @@ namespace OOP
             int move;
             if (myTurn)
             {
-                
+
                 while (true)
                 {
                     Console.Write("Ваш ход (1-9): ");
-                    move = int.Parse(Console.ReadLine()) - 1;
+                    move = player.Move(field, side);
+
+                    Console.WriteLine($"DEBUG: {move}");
+
+
                     if (move >= 0 && move <= 8 && field[move] != 'X' && field[move] != 'O')
                         break;
                     Console.WriteLine("Клетка занята или номер неверный, повторите.");
                 }
                 writer.WriteLine(move);
-                
+
             }
             else
             {
                 Console.WriteLine("Ожидание хода противника...");
-                move =  int.Parse(reader.ReadLine());
+                move = int.Parse(reader.ReadLine());
             }
             this.myTurn = !myTurn;
             return move;

@@ -54,29 +54,30 @@
                         playerO = new ConsoleBot();
                         WriteToConsole("You play as X");
                     }
-                    break;
-                    
+                    break;          
+
                 case 4:
                     //isHost: true
-                    NetWorkPlayer network4 = new NetWorkPlayer(true);
+                    NetWorkAdapter network4 = new NetWorkAdapter(true, new ConsolePlayer());
                     playerX = network4;
                     playerO = network4;
                     break;
                 case 5:
-                    NetWorkPlayer network5 = new NetWorkPlayer(false);
-                    playerX = network5;  
+                    NetWorkAdapter network5 = new NetWorkAdapter(false, new ConsolePlayer());
+                    playerX = network5;
                     playerO = network5;
                     break;
                 case 6:
-                    NetWorkBot network6 = new NetWorkBot(true);
+                    NetWorkAdapter network6 = new NetWorkAdapter(true, new ConsoleBot());
                     playerX = network6;
                     playerO = network6;
                     break;
                 case 7:
-                    NetWorkBot network7 = new NetWorkBot(false);
+                    NetWorkAdapter network7 = new NetWorkAdapter(false, new ConsoleBot());
                     playerX = network7;
                     playerO = network7;
                     break;
+
 
                 default:
                     WriteToConsole("unknown choice");
