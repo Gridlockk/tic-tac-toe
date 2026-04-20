@@ -32,11 +32,12 @@ namespace WaterShip
 
             Console.WriteLine("1 - Расставить корабли случайным образом \n 2 - Расставить корабли вручную");
             int choise = int.Parse(Console.ReadLine());
+            Console.Clear();
             switch (choise)
             {
                 case 1:
                     randomPlaceShips(this.field, SIZE, SHIP_SYMBOL);
-                    printField();
+                    printField(field);
                     break;
                 case 2:
                     choiseShip();
@@ -44,14 +45,15 @@ namespace WaterShip
                 default:
                     Console.WriteLine("Неверный выбор -  расставляем корабли случайным образом");
                     randomPlaceShips(this.field, SIZE, SHIP_SYMBOL);
-                    printField();
+                    printField(field);
                     break;
             }
+            
         }
 
 
 
-        private void colorPrint(char symbol)
+        public void colorPrint(char symbol)
         {
             switch (symbol)
             {
@@ -96,7 +98,7 @@ namespace WaterShip
                 }
             }
         }
-        void placeShip(char[,] field, int x, int y, int weight, bool isHorizontal)
+        private void placeShip(char[,] field, int x, int y, int weight, bool isHorizontal)
         {
             for (int i = 0; i < weight; i++)
             {
@@ -115,7 +117,7 @@ namespace WaterShip
             }
 
         }
-        void initField(char[,] field, int SIZE)
+        private void initField(char[,] field, int SIZE)
         {
 
             for (int i = 0; i < SIZE; i++)
@@ -129,7 +131,7 @@ namespace WaterShip
         }
 
 
-        public void printField()
+        public void printField(char[,] field)
         {
             Console.WriteLine("   A B C D E F G H I J");
             for (int i = 0; i < SIZE; i++)
@@ -149,28 +151,18 @@ namespace WaterShip
                 }
                 Console.WriteLine();
             }
+            Console.WriteLine("\n");
         }
 
-        public void printEnemyField()
+        public char[,] getMyField()
         {
-            Console.WriteLine("   A B C D E F G H I J");
-            for (int i = 0; i < SIZE; i++)
-            {
-                if (i == SIZE - 1)
-                {
-                    Console.Write($"{i + 1} ");
-                }
-                else
-                {
-                    Console.Write($" {i + 1} ");
-                }
+            return field;
+        }
 
-                for (int j = 0; j < SIZE; j++)
-                {
-                    colorPrint(enemyField[i, j]);
-                }
-                Console.WriteLine();
-            }
+
+        public char[,] getEnemyField()
+        {
+            return enemyField;
         }
 
         public void MarkShotOnEnemyField(int x, int y, bool isHit)
@@ -190,7 +182,7 @@ namespace WaterShip
             }
             else
             {
-                Console.WriteLine("Invalid coordinates for marking shot miss.");
+                Console.WriteLine("Некорректные координаты для отметки промаха");
             }
             return;
         }
@@ -212,7 +204,7 @@ namespace WaterShip
             }
             else
             {
-                Console.WriteLine("Invalid coordinates for marking shot miss.");
+                Console.WriteLine("Некорректные координаты для отметки попадания");
             }
             return;
         }
@@ -234,33 +226,13 @@ namespace WaterShip
             }
             else
             {
-                Console.WriteLine($"Invalid coordinates (DidEnemyHitMyShip) {y} - {x}");
+                Console.WriteLine($"Неправильные координаты");
             }
             return false;
         }
 
 
-        public void MarkEnemyShotOnMyField(int x, int y, bool isHit)
-        {
-            if (x >= 0 && x < SIZE && y >= 0 && y < SIZE)
-            {
-                if (isHit)
-                {
-
-                    field[y, x] = 'X';
-                }
-                else
-                {
-
-                    field[y, x] = '•';
-                }
-            }
-            else
-            {
-                Console.WriteLine("Invalid coordinates for marking shot miss.");
-            }
-            return;
-        }
+       
 
         bool canPlaceShip(char[,] field, int x, int y, int weight, bool isHorizontal)
         {
@@ -317,25 +289,25 @@ namespace WaterShip
         {
             while (ships[1] > 0 || ships[2] > 0 || ships[3] > 0 || ships[4] > 0)
             {
-                Console.WriteLine("Enter the weight of the ship:");
+                Console.WriteLine("Введите длину корабля:");
                 int weight = int.Parse(Console.ReadLine());
 
                 if (weight < 1 || weight > 4)
                 {
-                    Console.WriteLine("Invalid ship weight.");
+                    Console.WriteLine("Некорректная длина корабля.");
                     continue;
                 }
 
                 if (ships[weight] <= 0)
                 {
-                    Console.WriteLine($"No {weight}-deck ships left.");
+                    Console.WriteLine($"Нельзя расставить больше кораблей длиной {weight}");
                     continue;
                 }
 
-                Console.WriteLine("Ship horizontal or no (input 1 or any symbol)");
+                Console.WriteLine("Корабль горизонтальный или нет (введите 1 или любой символ)");
                 bool isHorizontal = Console.ReadLine() == "1";
 
-                Console.WriteLine("Enter coordinates (A5):");
+                Console.WriteLine("Введите координаты в формате (A5):");
                 string coordinates = Console.ReadLine().ToUpper();
 
                 int x = coordinates[0] - 'A';
@@ -348,11 +320,11 @@ namespace WaterShip
                 }
                 else
                 {
-                    Console.WriteLine("Cannot place the ship.");
+                    Console.WriteLine("Нельзя разместить корабль в этих координатах");
                 }
 
                 Console.Clear();
-                printField();
+                printField(field);
 
                 Console.WriteLine($"■■■■: {ships[4]}");
                 Console.WriteLine($"■■■ : {ships[3]}");

@@ -37,8 +37,14 @@ namespace WaterShip
             }
             else
             {
-                Console.Write("Введите IP хоста: ");
+                Console.Write("Введите IP хоста (по умолчанию используется 127.0.0.1): ");
                 string ip = Console.ReadLine();
+
+                if (ip == "")
+                {
+                    ip = "127.0.0.1";
+
+                }
                 client = new TcpClient();
                 client.Connect(IPAddress.Parse(ip), port);
                 Console.WriteLine("Успешно подключились!");

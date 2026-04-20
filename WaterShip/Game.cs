@@ -24,6 +24,7 @@ namespace WaterShip
             this.player = player;
             this.myTurn = isHost;
             NetworkManager = new NetworkManager(isHost);
+            Console.Clear();
         }
 
 
@@ -34,12 +35,12 @@ namespace WaterShip
         {
             while (myTotalhits < hitsToWin && enemyTotalHits < hitsToWin)
             {
-                Console.Clear();
+                
                 Console.WriteLine("\nМое поле\n");
-                player.printField();
+                player.printField( player.getMyField() );
 
                 Console.WriteLine("\nПоле врага\n");
-                player.printEnemyField();
+                player.printField( player.getEnemyField() );
 
                 if (myTurn)
                 {
@@ -50,12 +51,13 @@ namespace WaterShip
                     int x = coordinates[0] - 'A';
                     int y = int.Parse(coordinates.Substring(1)) - 1;
 
-
+                    Console.Clear();
                     if (NetworkManager.SendShot(x, y))
                     {
                         Console.WriteLine($"\nПопал - мой ход следующий");
 
                         player.MarkShotOnEnemyField(x, y, true);
+                        myTotalhits++;
                     }
                     else
                     {
@@ -69,8 +71,11 @@ namespace WaterShip
                 }
                 else
                 {
-                    // Wait for the enemy's turn
+                    // Ждем очередь противника
                     int x, y;
+
+
+                    Console.WriteLine($"\nЖдем ход притивника");
                     var move = NetworkManager.ReceiveShot();
                     Console.WriteLine($"\nПолучил ход");
 
@@ -86,6 +91,7 @@ namespace WaterShip
                     }
                     else
                     {
+                        enemyTotalHits++;
                         Console.WriteLine($"\nПротивник попал, его ход следующий");
                         player.MarkShotOnMyField(x, y, true);
                     }
@@ -94,14 +100,20 @@ namespace WaterShip
                 }
             }
 
+
+            Console.Clear();
             if (myTotalhits >= hitsToWin)
             {
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("\nВы выиграли!");
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("\nВы проиграли");
             }
+
+            Console.ResetColor();
 
         }
     }
